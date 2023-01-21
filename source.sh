@@ -11,6 +11,7 @@ make clean && make mrproper
 
 # Compiler environment
 mkdir -p out
+export ARCH=arm64
 export CLANG_PATH=$HOME/proton-clang-build/install/bin
 export PATH="$CLANG_PATH:$PATH"
 export CROSS_COMPILE=aarch64-linux-gnu-
@@ -22,10 +23,10 @@ echo
 echo "Setting defconfig"
 echo
 
-make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip O=out vendor/lahaina-qgki_defconfig
+make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld O=out vendor/lahaina-qgki_defconfig
 
 echo
 echo "Compiling kernel"
 echo
 
-make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip O=out -j$(nproc --all) || exit 1
+make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld O=out -j$(nproc --all) || exit 1
